@@ -37,6 +37,7 @@
         android:textColor="@color/white"
         android:layout_marginLeft="60dp"
         android:gravity="bottom"
+        android:text="tu"
         android:layout_alignBottom="@+id/tv_title"
        />
     <LinearLayout

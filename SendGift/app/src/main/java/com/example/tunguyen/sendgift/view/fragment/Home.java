@@ -25,11 +25,11 @@ public class Home extends Fragment {
 
 
     View view;
-
+    ViewPager pager_banner;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_home, container, false);
-
+        pager_banner=(ViewPager)  view.findViewById(R.id.pager_banner);
         return view;
     }
 

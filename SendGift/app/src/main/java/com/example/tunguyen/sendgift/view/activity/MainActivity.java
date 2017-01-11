@@ -2,7 +2,6 @@ package com.example.tunguyen.sendgift.view.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.NavigationView;
@@ -22,18 +21,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.example.tunguyen.sendgift.R;
 import com.example.tunguyen.sendgift.view.fragment.Fragment1;
 import com.example.tunguyen.sendgift.view.fragment.Fragment2;
 import com.example.tunguyen.sendgift.view.fragment.Home;
-import com.google.android.gms.appindexing.Action;
-import com.google.android.gms.appindexing.AppIndex;
-import com.google.android.gms.common.api.GoogleApiClient;
 import java.util.ArrayList;
 import java.util.List;
-
 public class MainActivity extends ActionBarActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private Toolbar toolbar;
@@ -43,7 +36,7 @@ public class MainActivity extends ActionBarActivity implements NavigationView.On
     NavigationView navigationView;
 
     View header;
-    TextView tvHeaderName, tvHeaderEmail;
+    TextView tvHeaderName,tvHeaderEmail;
     ImageView imgHeaderUser;
 
 
@@ -51,18 +44,13 @@ public class MainActivity extends ActionBarActivity implements NavigationView.On
 
     //string
     private static String PREF_NAME = "pref";
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
-    private GoogleApiClient client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 //        try {
 //            PackageInfo info = getPackageManager().getPackageInfo(
-//                    "com.tunguyen.sendgift",
+//                    "com.mypromotion.mypromotion",
 //                    PackageManager.GET_SIGNATURES);
 //            for (Signature signature : info.signatures) {
 //                MessageDigest md = MessageDigest.getInstance("SHA");
@@ -82,7 +70,10 @@ public class MainActivity extends ActionBarActivity implements NavigationView.On
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         //Add Header
-
+        header=navigationView.inflateHeaderView(R.layout.drawer_header);
+        tvHeaderName=(TextView)header.findViewById(R.id.tvHeaderName);
+        tvHeaderEmail=(TextView)header.findViewById(R.id.tvHeaderEmail);
+        imgHeaderUser=(ImageView)header.findViewById(R.id.drawer_head_img);
         setupViewPager(viewPager);
         setupTabLayout(tabLayout);
         setupActionBar();
@@ -96,9 +87,8 @@ public class MainActivity extends ActionBarActivity implements NavigationView.On
         toggle.syncState();
 
 
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+
+
     }//end Oncreate
 
 
@@ -107,33 +97,29 @@ public class MainActivity extends ActionBarActivity implements NavigationView.On
         super.onPause();
 
 
-    }
 
+    }
     @Override
     public void onResume() {
         super.onResume();
 
 
     }
-
     private void setupTabLayout(TabLayout tabLayout) {
-//        tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
+     //tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.setSelectedTabIndicatorColor(getResources().getColor(R.color.greenToolBarBg1));
     }
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFrag(new Home(), getResources().getString(R.string.title_home));
-        adapter.addFrag(new Fragment1(), getResources().getString(R.string.title_bag));
-        adapter.addFrag(new Fragment2(), getResources().getString(R.string.title_clothes));
-
-
+        adapter.addFrag(new Home(),getResources().getString(R.string.title_home));
+        adapter.addFrag(new Fragment1(),getResources().getString(R.string.title_bag));
+        adapter.addFrag(new Fragment2(),getResources().getString(R.string.title_clothes));
         viewPager.setAdapter(adapter);
-        viewPager.setOffscreenPageLimit(4);
+        viewPager.setOffscreenPageLimit(3);
     }
-
-    public void setupActionBar() {
+    public void setupActionBar(){
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         ActionBar mActionBar = getSupportActionBar();
@@ -151,58 +137,23 @@ public class MainActivity extends ActionBarActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
-        switch (id) {
+        switch (id){
             case R.id.nav_home:
-                Intent home = new Intent(getApplicationContext(), MainActivity.class);
+                Intent home=new Intent(getApplicationContext(),MainActivity.class);
                 startActivity(home);
                 break;
 
+            case R.id.nav_about_products:
+                break;
+            case R.id.nav_email:
+
+                break;
 
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client.connect();
-        Action viewAction = Action.newAction(
-                Action.TYPE_VIEW, // TODO: choose an action type.
-                "Main Page", // TODO: Define a title for the content shown.
-                // TODO: If you have web page content that matches this app activity's content,
-                // make sure this auto-generated web page URL is correct.
-                // Otherwise, set the URL to null.
-                Uri.parse("http://host/path"),
-                // TODO: Make sure this auto-generated app URL is correct.
-                Uri.parse("android-app://com.example.tunguyen.sendgift.view.activity/http/host/path")
-        );
-        AppIndex.AppIndexApi.start(client, viewAction);
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        Action viewAction = Action.newAction(
-                Action.TYPE_VIEW, // TODO: choose an action type.
-                "Main Page", // TODO: Define a title for the content shown.
-                // TODO: If you have web page content that matches this app activity's content,
-                // make sure this auto-generated web page URL is correct.
-                // Otherwise, set the URL to null.
-                Uri.parse("http://host/path"),
-                // TODO: Make sure this auto-generated app URL is correct.
-                Uri.parse("android-app://com.example.tunguyen.sendgift.view.activity/http/host/path")
-        );
-        AppIndex.AppIndexApi.end(client, viewAction);
-        client.disconnect();
     }
 
     class ViewPagerAdapter extends FragmentPagerAdapter {
@@ -212,6 +163,7 @@ public class MainActivity extends ActionBarActivity implements NavigationView.On
         public ViewPagerAdapter(FragmentManager manager) {
             super(manager);
         }
+
 
 
         @Override
@@ -244,7 +196,7 @@ public class MainActivity extends ActionBarActivity implements NavigationView.On
 
         this.doubleBackToExitPressedOnce = true;
 
-        
+
 
         new Handler().postDelayed(new Runnable() {
 
@@ -259,5 +211,6 @@ public class MainActivity extends ActionBarActivity implements NavigationView.On
     private static SharedPreferences getPref(Context context) {
         return context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
     }
+
 
 }
